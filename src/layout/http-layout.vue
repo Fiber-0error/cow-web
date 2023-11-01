@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import HttpAside from '@/components/aside/http-aside.vue';
+import HttpAside from '@/components/aside/index-aside.vue';
 </script>
 <template>
   <a-layout>

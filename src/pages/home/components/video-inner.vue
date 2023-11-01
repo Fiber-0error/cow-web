@@ -1,5 +1,7 @@
 <script lang="ts" setup></script>
 
-<template><h1>setting搁置</h1></template>
+<template>
+  <a-empty />
+</template>
 
 <style scoped></style>

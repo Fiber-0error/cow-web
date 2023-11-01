@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <h1>quickrequest搁置</h1>
+  <div>11瀑布流视频</div>
 </template>
 
 <style scoped></style>
