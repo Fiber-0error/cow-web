@@ -6,6 +6,7 @@ import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css/bundle';
 import VideoInner from '@/pages/home/components/video-inner.vue';
 import {Keyboard, Pagination, Navigation, Mousewheel} from 'swiper/modules';
+import {getVideoNext} from "@/http/api/video";
 
 const modules = [Keyboard, Pagination, Navigation, Mousewheel]
 
@@ -18,6 +19,12 @@ const slideChange = (slideChange) => {
 const reachEnd = (reachEnd) => {
   console.log(reachEnd)
 }
+const init = () => {
+  getVideoNext().then(r => {
+    console.log(r)
+  })
+}
+init()
 </script>
 
 <template>
