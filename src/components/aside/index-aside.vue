@@ -6,6 +6,7 @@ import {
   IconStorage
 } from '@arco-design/web-vue/es/icon';
 import router from '@/router';
+import {computed} from "vue";
 
 const menuListTop = [
   {
@@ -76,10 +77,9 @@ const menuListBottom = [
     icon: IconSettings
   }
 ];
+const routerUrl = computed(() => router.currentRoute.value.fullPath)
 const routerTo = (url) => {
-  console.log(url);
-  console.log(router.currentRoute.value.fullPath);
-  const replaceRoute = router.currentRoute.value.fullPath.replace(
+  const replaceRoute = routerUrl.value.replace(
     /(.*)/,
     `${url}`
   );
@@ -90,24 +90,24 @@ const routerTo = (url) => {
 
 <template>
   <a-space direction="vertical" fill>
-    <a-menu :default-selected-keys="['1']">
+    <a-menu :default-selected-keys="routerUrl">
       <a-menu-item
         v-for="(item, index) in menuListTop"
-        :key="`${index}`"
+        :key="item.url"
         @click="routerTo(item.url)"
       >
-        <component :is="item.icon" />
+        <component :is="item.icon"/>
         {{ item.label }}
       </a-menu-item>
       <div style="margin: 0 12px">
-        <a-divider />
+        <a-divider/>
       </div>
       <a-menu-item
         v-for="(item, index) in menuListBottom"
         :key="`${index + menuListTop.length}`"
         @click="routerTo(item.url)"
       >
-        <component :is="item.icon" />
+        <component :is="item.icon"/>
         {{ item.label }}
       </a-menu-item>
     </a-menu>
