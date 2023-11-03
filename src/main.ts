@@ -6,6 +6,7 @@ import App from './App.vue';
 import '@arco-design/web-vue/dist/arco.css';
 import router from './router';
 import '@/assets/main.css';
+import 'xgplayer/dist/index.min.css';
 
 const app = createApp(App);
 
