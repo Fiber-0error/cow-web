@@ -3,6 +3,7 @@ import { IconSearch } from '@arco-design/web-vue/es/icon';
 import LoginModal from '@/components/navbar/components/login-modal.vue';
 import UploadModal from './components/upload-modal.vue';
 import { ref } from 'vue';
+import { isLogin } from '@/utils/common';
 
 const loginModal = ref();
 const uploadModal = ref();
@@ -14,7 +15,6 @@ const handleClickUpload = () => {
   uploadModal.value.handleClick();
 }
 
-const token =localStorage.getItem('token');
 
 
 </script>
@@ -91,9 +91,8 @@ const token =localStorage.getItem('token');
       </a-popover>
       <a-divider direction='vertical' />
       <a-popover title='Title' position="br">
-        <a-button @click='handleClick' v-if="!token">登录</a-button>
+        <a-button @click='handleClick' v-if="!isLogin()">登录</a-button>
         <a-button @click='handleClickUpload' v-else>上传</a-button>
-
         <template #content>
           <p>Here is the text content</p>
           <p>Here is the text content</p>

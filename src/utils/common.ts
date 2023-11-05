@@ -23,7 +23,13 @@ function getFakeUrl() {
     }]
 }
 
+const isLogin = () => {
+  const token = localStorage.getItem('token');
+  return !!token;
+}
+
 export {
-    getFakeUrl
+    getFakeUrl,
+    isLogin
 }
 

@@ -8,6 +8,7 @@ import VideoInner from '@/pages/home/components/video-inner.vue';
 import VideoRight from '@/pages/home/components/video-right.vue';
 import VideoInfo from '@/pages/home/components/video-info.vue';
 import { ref , onMounted} from 'vue';
+import { isLogin } from '@/utils/common';
 
 const modules = [Keyboard, Pagination]
 
@@ -24,14 +25,18 @@ const reachEnd = (reachEnd) => {
 }
 const getVideo = async () => {
   const initArr = await getVideoNext();
+  console.log('initArr',initArr);
+
+  if (!isLogin()) {
+    videoData.value = [...videoData.value, ...initArr.data];
+    return;
+  }
   const resArr = initArr.data.map(item => {
     return userWatchVideo(item.id);
   })
-  const resData = await Promise.all(resArr);
+  const resData = await Promise.all(resArr)
   const list = resData.map(item => item.data);
   videoData.value = [...videoData.value, ...list];
-  console.log('vide', videoData.value);
-  // videoData.value = [...videoData.value, ...res.data];
 }
 
 const changeData = ( data) => {

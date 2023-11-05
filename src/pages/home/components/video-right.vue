@@ -15,7 +15,9 @@
 </template>
 <script setup lang='ts'>
 import { collectVideo, likeVideo } from '@/http/api/video';
+import { isLogin } from '@/utils/common';
 import { IconHeartFill , IconStarFill} from '@arco-design/web-vue/es/icon';
+import { message } from 'ant-design-vue';
 import { ref } from 'vue';
 const props = defineProps([ 'videoItem', 'changeData']);
 const emits = defineEmits(['changeData'])
@@ -31,6 +33,10 @@ console.log('videoInfo', props.videoItem)
  * 处理点击喜欢
  */
 const handleClickStar = () => {
+  if (!isLogin()) {
+     message.error('请先登录！');
+    return;
+  }
     likeVideo(id).then(res => {
       liked.value = res.data;
       if(res.data){
@@ -42,6 +48,11 @@ const handleClickStar = () => {
 }
 
 const handleClickCollect = () => {
+  if (!isLogin()) {
+      message.error('请先登录！');
+
+    return;
+  }
   collectVideo(id).then(res => {
       liked.value = res.data;
       if(res.data){
