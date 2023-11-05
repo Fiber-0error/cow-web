@@ -1,53 +1,67 @@
-<script lang="ts" setup>
-import {onMounted, ref} from "vue";
-import {getFakeUrl} from "@/utils/common"
+<script lang='ts' setup>
+import { nextTick, onMounted, reactive, ref } from 'vue';
+import { getFakeUrl } from '@/utils/common';
+import { vReSize } from '@/utils/sizeDirect.js';
+import DiscoverVideo from '@/pages/discover/components/discover-video.vue';
+import DiscoverVideoBox from '@/pages/discover/components/discover-video-box.vue';
 
-import {debounce} from "@arco-design/web-vue/es/_utils/debounce";
+const data = getFakeUrl();
+const columns = ref(null);
+const masonryColumnList: any = reactive([]);
 
-const masonryColumns = ref(6)
-
-const isResize = ref(true)
+const findMinColumnIndex = (columnsEl: any) => {
+  let MinColumnIndex = 0;
+  columnsEl.value.reduce((now: any, next: any, index: number) => {
+    if (next['offsetHeight'] < now['offsetHeight']) {
+      MinColumnIndex = index;
+      return next;
+    } else {
+      return now;
+    }
+  });
+  return MinColumnIndex;
+};
+const initMasonry = ({ currentColumns }: { currentColumns: any }) => {
+  for (let index = 0; index < currentColumns; index++) {
+    masonryColumnList.push(ref([]));
+  }
+  for (let i = 0; i < data.length; i++) {
+    let addColumnsIndex = findMinColumnIndex(columns);
+    masonryColumnList[addColumnsIndex].value.push(data[i]);
+  }
+};
 
 onMounted(() => {
-  let debounced = debounce(function () {
-    masonryColumns.value = (document.querySelector('#masonry')).style.cssText.replace(/.*repeat\((.).*/, `$1`)
-    isResize.value = false
-    setTimeout(() => {
-      isResize.value = true
-    }, 1000)
-  }, 300);
-  window.addEventListener('resize', debounced);
-})
+  initMasonry({ currentColumns: columnsNum.value });
+});
 
-const data = getFakeUrl()
-console.log(data)
-let data1 = [], //第一列
-    data2 = [], //第二列
-    data3 = []; //第三列
-const init = () => {
-  let i = 0;
-  while (i < data.length) {
-    data1.push(data[i++]);
-    if (i < data.length) {
-      data2.push(data[i++]);
-    }
-    if (i < data.length) {
-      data3.push(data[i++]);
-    }
+const columnsNum = ref(5);
+const resize = ({ width, height }: { width: number, height: number }) => {
+  let currentColumns = (width / 320) | 0;
+  if (columnsNum.value !== currentColumns) {
+    columnsNum.value = currentColumns;
+    masonryColumnList.splice(0, masonryColumnList.length);
+    console.log(masonryColumnList);
+    initMasonry({ currentColumns: currentColumns });
   }
-}
-
+};
 </script>
 
 <template>
   <div>
-    <div class="masonry">
-      <div class="column" style="width: 250px;border: 1px dodgerblue solid;border-radius: 8px;margin: 8px">
-        <div style="height: 500px;">
-
-        </div>
-        <div style="height: 50px;background-color: rgba(128,128,128,0.3)">
-          <!--          {{ i }}-->
+    <div ref='masonry' v-re-size='resize' class='masonry'>
+      <div v-for='column in columnsNum' ref='columns' class='column'>
+        {{ column - 1 }}
+        {{ masonryColumnList.value }}
+        <discover-video-box v-for='(item,index) in masonryColumnList[column-1]' :key='index'>
+          video
+          <discover-video />
+          <template #content>
+            video-info
+            {{item}}
+          </template>
+        </discover-video-box>
+        <div v-for='(item,index) in masonryColumnList[column-1]' :key='index'>
         </div>
       </div>
     </div>
@@ -58,11 +72,13 @@ const init = () => {
 .masonry {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 
 .column {
   display: flex;
   flex-direction: column;
+  height: fit-content;
 }
 
 </style>

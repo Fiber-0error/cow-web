@@ -20,19 +20,7 @@ function getFakeUrl() {
         url: 's'
     }, {
         url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    },]
+    }]
 }
 
 export {
