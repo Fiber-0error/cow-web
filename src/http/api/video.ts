@@ -10,10 +10,31 @@ export const getVideoNext = () => {
   return projectRequest(`swapper/next`, 'get');
 };
 
-export const updateVideoWatchProgress = () => {
+export const userWatchVideo = (videoId: number) => {
+  if (!videoId) {
+    return;
+  }
+  return projectRequest(`watch?videoId=${videoId}`, 'get')
+}
+
+export const updateVideoWatchProgress = (videoId: number, watchProgress: string) => {
+  if (!videoId || !watchProgress) {
+    return;
+  }
+  return projectRequest(`/flash/watchProgress?videoId=${videoId}&watchProgress=${watchProgress}`, 'get')
 
 }
 
 export const likeVideo = (videoId: number) => {
-  return projectRequest('like', 'get', {videoId})
+  if(!videoId) {
+    return;
+  }
+  return projectRequest(`like?videoId=${videoId}`, 'get')
+}
+
+export const collectVideo = (videoId: number) => {
+  if (!videoId) {
+    return;
+  }
+  return projectRequest(`collect?videoId=${videoId}`, 'get')
 }
