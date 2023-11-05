@@ -7,5 +7,13 @@ const projectRequest = (url: string, method: string, params?: object) => {
     });
 };
 export const getVideoNext = () => {
-    return projectRequest(`next`, 'get');
+  return projectRequest(`swapper/next`, 'get');
 };
+
+export const updateVideoWatchProgress = () => {
+
+}
+
+export const likeVideo = (videoId: number) => {
+  return projectRequest('like', 'get', {videoId})
+}

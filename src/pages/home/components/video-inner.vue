@@ -1,23 +1,14 @@
 <template>
-    <div ref='videoRef'></div>
+    <div class="my-video" ref='videoRef'></div>
 </template>
 <script setup lang='ts'>
-import Player from 'xgplayer';
-import {onMounted, ref , defineProps, watch, computed} from 'vue';
-import {baseVideoConfig, getVideoHeightWidth} from '@/config/video'
-
-const props = defineProps(['url', 'isActive'])
-const videoRef = ref(null)
+import {onMounted, ref , watch, computed} from 'vue';
+import {baseVideoConfig, getVideoHeightWidth ,usePlayer} from '@/config/video'
+const props = defineProps(['url', 'isActive', 'videoItem'])
+const videoRef = ref();
 let videoPalyer;
-onMounted(() => {
-  console.log('url', props)
-  videoPalyer = new Player({
-    el: videoRef.value,
-    url: props.url,
-    width: getVideoHeightWidth().width - 10,
-    height: getVideoHeightWidth().height - 10,
-    ...baseVideoConfig
-  })
+onMounted( () => {
+    videoPalyer = usePlayer(videoRef.value, props.videoItem.url);
 })
 
 const isActive = computed(() => {
@@ -25,7 +16,6 @@ const isActive = computed(() => {
 })
 
 watch(isActive, (newVal, oldVal) => {
-  console.log('val', newVal, oldVal, videoPalyer);
   if (newVal) {
       videoPalyer.play();
   } else {
