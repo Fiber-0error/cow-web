@@ -1,10 +1,15 @@
 <script lang='ts' setup>
 import { nextTick, onMounted, ref } from 'vue';
-import { getFakeUrl, getVideos } from '@/utils/common';
+import { getFakeUrl } from '@/utils/common';
 import { vReSize } from '@/utils/sizeDirect.js';
 import DiscoverVideoCard from '@/pages/discover/components/discover-video-card.vue';
 
-const data = ref([]);
+const {data}=defineProps({
+  data: {
+    type: Array,
+    default: () => getFakeUrl
+  }
+});
 const columns = ref(null);
 const videos = ref(null);
 const columnsNum = ref(5);
@@ -23,57 +28,57 @@ const initMasonry = ({ ColumnNum }: { ColumnNum: any }) => {
 const findMinColumnIndex = (columnsEl: any) => {
   let MinColumnIndex = 0;
   MinColumnIndex = masonryColumnList.value.map((item: any) => item.height)
-      .reduce((now: number, next: number, index: number, arr: any) => next < arr[now] ? index : now, 0);
+    .reduce((now: number, next: number, index: number, arr: any) => next < arr[now] ? index : now, 0);
   return MinColumnIndex;
 };
 const initVideos = () => {
-  for (let i = 0; i < data.value.length; i++) {
-    masonryColumnList.value[findMinColumnIndex(columns)].list.push(data.value[i]);
+  for (let i = 0; i < data.length; i++) {
+    masonryColumnList.value[findMinColumnIndex(columns)].list.push(data[i]);
     masonryColumnList.value[findMinColumnIndex(columns)].height += 1;
   }
 };
 const resetColumns = ({ columnsList, ColumnNum }: { columns: number, ColumnNum: number }) => {
   nextTick(() => {
     const { Column: minColumn, ColumnIndex: minColumnIndex } = columnsList.reduce(
-        (now, next, index, arr) => {
-          if (now.Column.offsetHeight > next.offsetHeight) {
-            return {
-              Column: next,
-              ColumnIndex: index
-            };
-          } else {
-            return {
-              Column: now.Column,
-              ColumnIndex: now.ColumnIndex
-            };
-          }
-        }, {
-          Column: { offsetHeight: 9999 },
-          ColumnIndex: 0
-        });
+      (now, next, index, arr) => {
+        if (now.Column.offsetHeight > next.offsetHeight) {
+          return {
+            Column: next,
+            ColumnIndex: index
+          };
+        } else {
+          return {
+            Column: now.Column,
+            ColumnIndex: now.ColumnIndex
+          };
+        }
+      }, {
+        Column: { offsetHeight: 9999 },
+        ColumnIndex: 0
+      });
     const { Column: maxColumn, ColumnIndex: maxColumnIndex } = columnsList.reduce(
-        (now, next, index, arr) => {
-          if (now.Column.offsetHeight < next.offsetHeight) {
-            return {
-              Column: next,
-              ColumnIndex: index
-            };
-          } else {
-            return {
-              Column: now.Column,
-              ColumnIndex: now.ColumnIndex
-            };
-          }
-        }, {
-          Column: { offsetHeight: 0 },
-          ColumnIndex: 0
-        });
+      (now, next, index, arr) => {
+        if (now.Column.offsetHeight < next.offsetHeight) {
+          return {
+            Column: next,
+            ColumnIndex: index
+          };
+        } else {
+          return {
+            Column: now.Column,
+            ColumnIndex: now.ColumnIndex
+          };
+        }
+      }, {
+        Column: { offsetHeight: 0 },
+        ColumnIndex: 0
+      });
     console.log(minColumnIndex, maxColumnIndex);
 
     if (minColumn.offsetHeight < maxColumn.children[maxColumn.children.length - 1].offsetTop) {
       console.log('yes');
       masonryColumnList.value[minColumnIndex].list.push(
-          masonryColumnList.value[maxColumnIndex].list.pop());
+        masonryColumnList.value[maxColumnIndex].list.pop());
     }
     masonryColumnList.value.forEach((item) => item.height = 0);
     console.log(masonryColumnList.value);
@@ -88,27 +93,18 @@ const resize = ({ width, height }: { width: number, height: number }) => {
     resetColumns({ columnsList: columns.value, ColumnNum: columnsNum.value });
   }
 };
-
-const addVideos = () => {
-  getVideos()
-      .then((r) => {
-        data.value.push(...r);
-        initVideos();
-        resetColumns({ columnsList: columns.value, ColumnNum: columnsNum.value });
-      });
-};
-
 onMounted(() => {
   initMasonry({ ColumnNum: columnsNum.value });
-  addVideos();
+  initVideos();
+  resetColumns({ columnsList: columns.value, ColumnNum: columnsNum.value });
 });
 const loading = ref(false);
-const scrollEnd = () => {
+const addVideos = () => {
   if (!loading.value) {
     if (scrollHeight.value.offsetHeight >= (scroll.value.getBoundingClientRect().top - 64)) {
       loading.value = true;
       setTimeout(() => {
-        addVideos();
+        initVideos();
         loading.value = false;
       }, 500);
     }
@@ -119,12 +115,13 @@ const scrollEnd = () => {
 
 <template>
   <div ref='scrollHeight'>
-    <a-scrollbar style='height:calc(100vh - 64px);overflow: auto;' @scroll='scrollEnd'>
+    <a-scrollbar style='height:calc(100vh - 64px);overflow: auto;' @scroll='addVideos'>
       <div v-re-size='resize' class='masonry'>
         <div v-for='column in columnsNum' ref='columns' class='column'>
           <template v-if='masonryColumnList.length'>
             <template v-for='(item,index) in masonryColumnList[column-1]["list"]'>
-              <discover-video-card ref='videos' :video-info='item' />
+              {{ item }}
+              <discover-video-card ref='videos' />
             </template>
           </template>
         </div>

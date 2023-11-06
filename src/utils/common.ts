@@ -1,57 +1,36 @@
-function debounce(fn, delay = 1000) {
-    let timer
-    return function () {
-        window.clearTimeout(timer)
-        timer = setTimeout(() => {
-            fn.apply(this, arguments)
-            window.clearTimeout(timer)
-        }, delay)
-    }
-}
+import { getVideoNext, recommendVideo } from '@/http/api/video';
+import { computed } from 'vue';
+import router from '@/router';
 
-function getFakeUrl() {
-    return [{
-        url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    }, {
-        url: 's'
-    }]
+const typeMap = {
+    '/discover': '',
+    '/live': '直播',
+    '/vs': '放映厅',
+    '/panel': '知识',
+    '/sport': '体育',
+    '/hot': '热点',
+    '/game': '游戏',
+    '/fun': '娱乐',
+    '/acg': '二次元',
+    '/music': '音乐'
+};
+const routerUrl = computed(() => router.currentRoute.value.fullPath);
+
+async function getVideos() {
+    let VideoData: any[] = [];
+    await recommendVideo(typeMap[routerUrl.value], 14)
+        .then(({ data }) => {
+            VideoData = data;
+        });
+    return VideoData;
 }
 
 const isLogin = () => {
-  const token = localStorage.getItem('token');
-  return !!token;
-}
+    const token = localStorage.getItem('token');
+    return !!token;
+};
 
 export {
-    getFakeUrl,
-    isLogin
-}
+    getVideos, isLogin
+};
 

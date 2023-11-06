@@ -7,8 +7,8 @@
       <a-layout-header class='layout-navbar'>
         <nav-bar />
       </a-layout-header>
-      <router-view v-slot='{ Component }'>
-        <transition appear mode='out-in' name='fade'>
+      <router-view v-slot='{ Component }' >
+        <transition appear mode='out-in' name='fade' >
           <component :is='Component' />
         </transition>
       </router-view>

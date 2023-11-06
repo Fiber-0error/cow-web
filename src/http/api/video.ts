@@ -38,3 +38,7 @@ export const collectVideo = (videoId: number) => {
   }
   return projectRequest(`collect?videoId=${videoId}`, 'get')
 }
+
+export const recommendVideo = (type: string,size:number) => {
+  return projectRequest(`recommend?type=${type}&size=${size}`, 'get')
+}

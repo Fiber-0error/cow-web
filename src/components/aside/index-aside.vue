@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang='ts' setup>
 import {
   IconComputer,
   IconMindMapping,
@@ -6,7 +6,7 @@ import {
   IconStorage
 } from '@arco-design/web-vue/es/icon';
 import router from '@/router';
-import {computed} from "vue";
+import { computed } from 'vue';
 
 const menuListTop = [
   {
@@ -19,16 +19,16 @@ const menuListTop = [
     url: 'home',
     icon: IconStorage
   },
-  {
-    label: '关注',
-    url: 'follow',
-    icon: IconStorage
-  },
-  {
-    label: '朋友',
-    url: 'friend',
-    icon: IconMindMapping
-  },
+  // {
+  //   label: '关注',
+  //   url: 'follow',
+  //   icon: IconStorage
+  // },
+  // {
+  //   label: '朋友',
+  //   url: 'friend',
+  //   icon: IconMindMapping
+  // },
   {
     label: '我的',
     url: 'user',
@@ -36,16 +36,16 @@ const menuListTop = [
   }
 ];
 const menuListBottom = [
-  {
-    label: '直播',
-    url: 'live',
-    icon: IconSettings
-  },
-  {
-    label: '放映厅',
-    url: 'vs',
-    icon: IconSettings
-  },
+  // {
+  //   label: '直播',
+  //   url: 'live',
+  //   icon: IconSettings
+  // },
+  // {
+  //   label: '放映厅',
+  //   url: 'vs',
+  //   icon: IconSettings
+  // },
   {
     label: '知识',
     url: 'panel',
@@ -77,11 +77,11 @@ const menuListBottom = [
     icon: IconSettings
   }
 ];
-const routerUrl = computed(() => router.currentRoute.value.fullPath)
+const routerUrl = computed(() => router.currentRoute.value.fullPath);
 const routerTo = (url) => {
   const replaceRoute = routerUrl.value.replace(
-    /(.*)/,
-    `${url}`
+      /(.*)/,
+      `${url}`
   );
   console.log(replaceRoute);
   router.replace(replaceRoute);
@@ -89,29 +89,29 @@ const routerTo = (url) => {
 </script>
 
 <template>
-  <a-space direction="vertical" fill>
-    <a-menu :default-selected-key="routerUrl">
+  <a-space direction='vertical' fill>
+    <a-menu v-model:selected-keys='routerUrl' :default-selected-key='routerUrl'>
       <a-menu-item
-        v-for="(item, index) in menuListTop"
-        :key="item.url"
-        @click="routerTo(item.url)"
+          v-for='(item, index) in menuListTop'
+          :key='item.url'
+          @click='routerTo(item.url)'
       >
-        <component :is="item.icon"/>
+        <component :is='item.icon' />
         {{ item.label }}
       </a-menu-item>
-      <div style="margin: 0 12px">
-        <a-divider/>
+      <div style='margin: 0 12px'>
+        <a-divider />
       </div>
       <a-menu-item
-        v-for="(item, index) in menuListBottom"
-        :key="`${index + menuListTop.length}`"
-        @click="routerTo(item.url)"
+          v-for='(item, index) in menuListBottom'
+          :key='item.url'
+          @click='routerTo(item.url)'
       >
-        <component :is="item.icon"/>
+        <component :is='item.icon' />
         {{ item.label }}
       </a-menu-item>
     </a-menu>
   </a-space>
 </template>
 
-<style lang="less" scoped></style>
+<style lang='less' scoped></style>
