@@ -1,68 +1,109 @@
 <script lang='ts' setup>
-import { nextTick, onMounted, reactive, ref } from 'vue';
+import { nextTick, onMounted, ref } from 'vue';
 import { getFakeUrl } from '@/utils/common';
 import { vReSize } from '@/utils/sizeDirect.js';
-import DiscoverVideo from '@/pages/discover/components/discover-video.vue';
-import DiscoverVideoBox from '@/pages/discover/components/discover-video-box.vue';
+import DiscoverVideoCard from '@/pages/discover/components/discover-video-card.vue';
 
 const data = getFakeUrl();
 const columns = ref(null);
-const masonryColumnList: any = reactive([]);
+const videos = ref(null);
+const columnsNum = ref(5);
+const render = ref(true);
+const masonryColumnList: any = ref([]);
 
+
+const initMasonry = ({ ColumnNum }: { ColumnNum: any }) => {
+  masonryColumnList.value.splice(0, masonryColumnList.value.length);
+  for (let index = 0; index < ColumnNum; index++) {
+    masonryColumnList.value.push({ height: 0, list: [] });
+  }
+};
 const findMinColumnIndex = (columnsEl: any) => {
   let MinColumnIndex = 0;
-  columnsEl.value.reduce((now: any, next: any, index: number) => {
-    if (next['offsetHeight'] < now['offsetHeight']) {
-      MinColumnIndex = index;
-      return next;
-    } else {
-      return now;
-    }
-  });
+  MinColumnIndex = masonryColumnList.value.map((item: any) => item.height)
+    .reduce((now: number, next: number, index: number, arr: any) => next < arr[now] ? index : now, 0);
   return MinColumnIndex;
 };
-const initMasonry = ({ currentColumns }: { currentColumns: any }) => {
-  for (let index = 0; index < currentColumns; index++) {
-    masonryColumnList.push(ref([]));
-  }
+const initVideos = () => {
   for (let i = 0; i < data.length; i++) {
-    let addColumnsIndex = findMinColumnIndex(columns);
-    masonryColumnList[addColumnsIndex].value.push(data[i]);
+    masonryColumnList.value[findMinColumnIndex(columns)].list.push(data[i]);
+    masonryColumnList.value[findMinColumnIndex(columns)].height += 1;
   }
 };
+const resetColumns = ({ columnsList, ColumnNum }: { columns: number, ColumnNum: number }) => {
+  nextTick(() => {
+    const { Column: minColumn, ColumnIndex: minColumnIndex } = columnsList.reduce(
+      (now, next, index, arr) => {
+        if (now.Column.offsetHeight > next.offsetHeight) {
+          return {
+            Column: next,
+            ColumnIndex: index
+          };
+        } else {
+          return {
+            Column: now.Column,
+            ColumnIndex: now.ColumnIndex
+          };
+        }
+      }, {
+        Column: { offsetHeight: 9999 },
+        ColumnIndex: 0
+      });
+    const { Column: maxColumn, ColumnIndex: maxColumnIndex } = columnsList.reduce(
+      (now, next, index, arr) => {
+        if (now.Column.offsetHeight < next.offsetHeight) {
+          return {
+            Column: next,
+            ColumnIndex: index
+          };
+        } else {
+          return {
+            Column: now.Column,
+            ColumnIndex: now.ColumnIndex
+          };
+        }
+      }, {
+        Column: { offsetHeight: 0 },
+        ColumnIndex: 0
+      });
+    console.log(minColumnIndex, maxColumnIndex);
 
+    if (minColumn.offsetHeight < maxColumn.children[maxColumn.children.length - 1].offsetTop) {
+      console.log('yes');
+      masonryColumnList.value[minColumnIndex].list.push(
+        masonryColumnList.value[maxColumnIndex].list.pop());
+    }
+    masonryColumnList.value.forEach((item) => item.height = 0);
+    console.log(masonryColumnList.value);
+  });
+};
+const resize = ({ width, height }: { width: number, height: number }) => {
+  let ColumnNum = (width / 320) | 0;
+  if (columnsNum.value !== ColumnNum) {
+    columnsNum.value = ColumnNum;
+    initMasonry({ ColumnNum: ColumnNum });
+    initVideos(columns);
+    resetColumns({ columnsList: columns.value, ColumnNum: columnsNum.value });
+  }
+};
 onMounted(() => {
-  initMasonry({ currentColumns: columnsNum.value });
+  initMasonry({ ColumnNum: columnsNum.value });
+  initVideos(columns);
+  resetColumns({ columnsList: columns.value, ColumnNum: columnsNum.value });
 });
 
-const columnsNum = ref(5);
-const resize = ({ width, height }: { width: number, height: number }) => {
-  let currentColumns = (width / 320) | 0;
-  if (columnsNum.value !== currentColumns) {
-    columnsNum.value = currentColumns;
-    masonryColumnList.splice(0, masonryColumnList.length);
-    console.log(masonryColumnList);
-    initMasonry({ currentColumns: currentColumns });
-  }
-};
 </script>
 
 <template>
   <div>
-    <div ref='masonry' v-re-size='resize' class='masonry'>
+    <div v-re-size='resize' class='masonry'>
       <div v-for='column in columnsNum' ref='columns' class='column'>
-        {{ column - 1 }}
-        {{ masonryColumnList.value }}
-        <discover-video-box v-for='(item,index) in masonryColumnList[column-1]' :key='index'>
-          video
-          <discover-video />
-          <template #content>
-            video-info
-            {{item}}
+        <template v-if='masonryColumnList.length'>
+          <template v-for='(item,index) in masonryColumnList[column-1]["list"]'>
+            {{ item }}
+            <discover-video-card ref='videos' />
           </template>
-        </discover-video-box>
-        <div v-for='(item,index) in masonryColumnList[column-1]' :key='index'>
-        </div>
+        </template>
       </div>
     </div>
   </div>

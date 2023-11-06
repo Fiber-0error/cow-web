@@ -90,7 +90,7 @@ const routerTo = (url) => {
 
 <template>
   <a-space direction="vertical" fill>
-    <a-menu :default-selected-keys="routerUrl">
+    <a-menu :default-selected-key="routerUrl">
       <a-menu-item
         v-for="(item, index) in menuListTop"
         :key="item.url"
