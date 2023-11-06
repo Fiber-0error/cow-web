@@ -1,27 +1,27 @@
 <template>
-  <a-layout style="height: 100vh">
-    <a-layout-sider :width="160" collapsible style="padding-top: 60px">
+  <a-layout style='height: 100vh'>
+    <a-layout-sider :width='160' collapsible style='padding-top: 60px'>
       <main-aside />
     </a-layout-sider>
-    <a-layout>
-      <a-layout-header class="layout-navbar">
+    <a-layout style='height:100vh;overflow: hidden'>
+      <a-layout-header class='layout-navbar'>
         <nav-bar />
       </a-layout-header>
-      <router-view v-slot="{ Component }">
-        <transition appear mode="out-in" name="fade">
-          <component :is="Component" />
+      <router-view v-slot='{ Component }'>
+        <transition appear mode='out-in' name='fade'>
+          <component :is='Component' />
         </transition>
       </router-view>
     </a-layout>
   </a-layout>
 </template>
 
-<script lang="ts" setup>
+<script lang='ts' setup>
 import NavBar from '@/components/navbar/index-navbar.vue';
 import MainAside from '@/components/aside/index-aside.vue';
 </script>
 
-<style lang="less" scoped>
+<style lang='less' scoped>
 @nav-size-height: 60px;
 //.layout-navbar {
 //  position: fixed;

@@ -9,6 +9,8 @@ const columns = ref(null);
 const videos = ref(null);
 const columnsNum = ref(5);
 const render = ref(true);
+const scroll = ref(null);
+const scrollHeight = ref(null);
 const masonryColumnList: any = ref([]);
 
 
@@ -82,30 +84,49 @@ const resize = ({ width, height }: { width: number, height: number }) => {
   if (columnsNum.value !== ColumnNum) {
     columnsNum.value = ColumnNum;
     initMasonry({ ColumnNum: ColumnNum });
-    initVideos(columns);
+    initVideos();
     resetColumns({ columnsList: columns.value, ColumnNum: columnsNum.value });
   }
 };
 onMounted(() => {
   initMasonry({ ColumnNum: columnsNum.value });
-  initVideos(columns);
+  initVideos();
   resetColumns({ columnsList: columns.value, ColumnNum: columnsNum.value });
 });
+const loading = ref(false);
+const addVideos = () => {
+  if (!loading.value) {
+    if (scrollHeight.value.offsetHeight >= (scroll.value.getBoundingClientRect().top - 64)) {
+      loading.value = true;
+      setTimeout(() => {
+        initVideos();
+        loading.value = false;
+      }, 500);
+    }
+  }
+};
 
 </script>
 
 <template>
-  <div>
-    <div v-re-size='resize' class='masonry'>
-      <div v-for='column in columnsNum' ref='columns' class='column'>
-        <template v-if='masonryColumnList.length'>
-          <template v-for='(item,index) in masonryColumnList[column-1]["list"]'>
-            {{ item }}
-            <discover-video-card ref='videos' />
-          </template>
-        </template>
+  <div ref='scrollHeight'>
+    <a-scrollbar style='height:calc(100vh - 64px);overflow: auto;' @scroll='addVideos'>
+      <div>
+        <div v-re-size='resize' class='masonry'>
+          <div v-for='column in columnsNum' ref='columns' class='column'>
+            <template v-if='masonryColumnList.length'>
+              <template v-for='(item,index) in masonryColumnList[column-1]["list"]'>
+                {{ item }}
+                <discover-video-card ref='videos' />
+              </template>
+            </template>
+          </div>
+        </div>
       </div>
-    </div>
+      <div ref='scroll'>
+        footer
+      </div>
+    </a-scrollbar>
   </div>
 </template>
 
