@@ -26,7 +26,45 @@ async function getVideos() {
     return VideoData;
 }
 
+
+function getFakeUrl() {
+  return [{
+    url: 's'
+  }, {
+    url: 's'
+  }, {
+    url: 's'
+  }, {
+    url: 's'
+  }, {
+    url: 's'
+  }, {
+    url: 's'
+  }, {
+    url: 's'
+  }, {
+    url: 's'
+  }, {
+    url: 's'
+  }, {
+    url: 's'
+  }, {
+    url: 's'
+  }, {
+    url: 's'
+  }, {
+    url: 's'
+  }, {
+    url: 's'
+  }, {
+    url: 's'
+  }, {
+    url: 's'
+  }]
+}
+
 export {
-  getVideos,
+    getFakeUrl,
+    isLogin
 }
 

@@ -16,7 +16,6 @@ export default defineConfig({
         secure: false,
         changeOrigin: false,
       },
-
     },
-  },
+  }
 });
