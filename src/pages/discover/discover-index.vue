@@ -130,7 +130,9 @@ const scrollEnd = () => {
         </div>
       </div>
       <div ref='scroll'>
-        footer
+        <div style='display:flex;justify-content: center;align-items: center;height: 150px'>
+          <icon-loading />
+        </div>
       </div>
     </a-scrollbar>
   </div>

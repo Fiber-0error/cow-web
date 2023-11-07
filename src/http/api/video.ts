@@ -43,6 +43,10 @@ export const recommendVideo = (type: string,size:number) => {
   return projectRequest(`recommend?type=${type}&size=${size}`, 'get')
 }
 
+export const searchVideo = (keyWord:string,current:number,type: string,size:number) => {
+  return projectRequest(`search?keyWord=${keyWord}&current=${current}&type=${type}&size=${size}`, 'get')
+}
+
 export const uploadVideo = (params) => {
   return projectRequest('upload', 'post', {
     params
