@@ -19,7 +19,6 @@
 const props = defineProps([ 'videoItem'])
 const {uploadUser, type, name, describe, tag} = props.videoItem;
 const tagArr = tag && tag.split(',');
-console.log('prop',props.videoItem);
 </script>
 <style lang='scss' scoped>
 .info-container{

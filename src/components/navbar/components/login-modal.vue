@@ -1,8 +1,11 @@
 <script lang='ts' setup>
 import { reactive, ref } from 'vue';
 import { userLogin, userRegister } from '@/http/api/login';
+import { useUserStore } from '@/stores/user';
 
+const user = useUserStore();
 const visible = ref(false);
+
 
 const activeKey = ref('1');
 const form = reactive({
@@ -20,6 +23,7 @@ const handleBeforeOk = (done) => {
   if (activeKey.value === '1') {
     userLogin(form).then(({ data }) => {
       localStorage.setItem('token', data.token);
+      user.setToken(data.token);
     });
   } else if (activeKey.value === '2') {
     userRegister(form).then(() => {

@@ -15,7 +15,7 @@
 </template>
 <script setup lang='ts'>
 import { collectVideo, likeVideo } from '@/http/api/video';
-import { isLogin } from '@/utils/common';
+import { useUserStore } from '@/stores/user';
 import { IconHeartFill , IconStarFill} from '@arco-design/web-vue/es/icon';
 import { message } from 'ant-design-vue';
 import { ref } from 'vue';
@@ -27,39 +27,34 @@ const liked = ref(isLike);
 const likeCount = ref(props.videoItem.likeCount);
 const collect = ref(isCollect);
 
-console.log('videoInfo', props.videoItem)
+const user = useUserStore();
 
 /**
  * 处理点击喜欢
  */
 const handleClickStar = () => {
-  if (!isLogin()) {
+  if (!user.isLogin) {
      message.error('请先登录！');
     return;
   }
     likeVideo(id).then(res => {
       liked.value = res.data;
       if(res.data){
-        likeCount.value += 1;
+        likeCount.value = likeCount.value ? likeCount.value + 1 : 1;
       } else {
-        likeCount.value -= 1;
+        likeCount.value = likeCount.value ? likeCount.value - 1 : null;
       }
     })
 }
 
 const handleClickCollect = () => {
-  if (!isLogin()) {
+  if (!user.isLogin) {
       message.error('请先登录！');
 
     return;
   }
   collectVideo(id).then(res => {
-      liked.value = res.data;
-      if(res.data){
-        likeCount.value += 1;
-      } else {
-        likeCount.value -= 1;
-      }
+      collect.value = res.data;
     })
 }
 </script>

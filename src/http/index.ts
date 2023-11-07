@@ -24,7 +24,6 @@ serviceAxios.interceptors.request.use((config) => {
       config.headers['content-type'] = 'application/json'; // 默认类型
     }
   }
-  console.log('请求配置', config);
   return config;
 }, (error) => {
   Promise.reject(error);

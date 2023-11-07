@@ -1,5 +1,6 @@
+import { computed, ref, watch } from "vue"
+
 import { getVideoNext, recommendVideo } from '@/http/api/video';
-import { computed } from 'vue';
 import router from '@/router';
 
 const typeMap = {
@@ -25,12 +26,7 @@ async function getVideos() {
     return VideoData;
 }
 
-const isLogin = () => {
-    const token = localStorage.getItem('token');
-    return !!token;
-};
-
 export {
-    getVideos, isLogin
-};
+  getVideos,
+}
 

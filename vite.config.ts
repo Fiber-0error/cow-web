@@ -12,9 +12,10 @@ export default defineConfig({
   }, server: {
     proxy: {
       '/cow-api': {
-        target: 'http://cool.ldqc.xyz',
-        changeOrigin: false
+        target: 'https://cool.ldqc.xyz',
+        changeOrigin: false,
       },
+
     },
-  }
+  },
 });

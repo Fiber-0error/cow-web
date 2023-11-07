@@ -7,8 +7,10 @@ import 'swiper/css/bundle';
 import VideoInner from '@/pages/home/components/video-inner.vue';
 import VideoRight from '@/pages/home/components/video-right.vue';
 import VideoInfo from '@/pages/home/components/video-info.vue';
-import { ref, onMounted } from 'vue';
-import { isLogin } from '@/utils/common';
+import { ref , onMounted} from 'vue';
+import { useUserStore } from '@/stores/user';
+
+const user = useUserStore();
 
 const modules = [Keyboard, Pagination];
 
@@ -27,7 +29,7 @@ const getVideo = async () => {
   const initArr = await getVideoNext();
   console.log('initArr', initArr);
 
-  if (!isLogin()) {
+  if (!user.isLogin) {
     videoData.value = [...videoData.value, ...initArr.data];
     return;
   }

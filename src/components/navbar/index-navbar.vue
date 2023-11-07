@@ -2,8 +2,10 @@
 import { IconSearch } from '@arco-design/web-vue/es/icon';
 import LoginModal from '@/components/navbar/components/login-modal.vue';
 import UploadModal from './components/upload-modal.vue';
-import { ref } from 'vue';
-import { isLogin } from '@/utils/common';
+import { ref, computed } from 'vue';
+import { useUserStore } from '@/stores/user';
+
+const user = useUserStore();
 
 const loginModal = ref();
 const uploadModal = ref();
@@ -90,14 +92,8 @@ const handleClickUpload = () => {
         </template>
       </a-popover>
       <a-divider direction='vertical' />
-      <a-popover title='Title' position="br">
-        <a-button @click='handleClick' v-if="!isLogin()">登录</a-button>
+        <a-button @click='handleClick' v-if="!user.isLogin">登录</a-button>
         <a-button @click='handleClickUpload' v-else>上传</a-button>
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </a-popover>
       <div></div>
     </a-space>
   </div>
@@ -106,3 +102,4 @@ const handleClickUpload = () => {
 </template>
 
 <style scoped></style>
+@/stores/user

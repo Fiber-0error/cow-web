@@ -52,25 +52,19 @@ const handleChange = (info: UploadChangeParam) => {
   }
 };
 
-const beforeUpload: UploadProps['beforeUpload'] = (
-  file
-) => {
-  const type = [
-    'MP4',
-    'MOV',
-    'WMV',
-    'FLV',
-    'AVI',
-    'AVCHD',
-    'WebM',
-    'MKV'
-  ];
-  const isPNG = type.includes(`${file.type}`.toUpperCase());
-  if (!isPNG) {
-    message.error(`${file.name} is not a video file`);
-  }
-  console.log(file);
-  return false;
+const beforeUpload: UploadProps['beforeUpload'] = file => {
+  return new Promise((resolve, reject) => {
+    const isLt100M = file.size / 1024/ 1024 < 100;
+    if(!isLt100M) {
+      message.error('file is large than 100M!');
+    }
+    const type = ['MP4','MOV','WMV','FLV','AVI','AVCHD','WebM','MKV']
+    const isPNG = type.includes(`${file.type}`.toUpperCase());
+    if (!isPNG) {
+      message.error(`${file.name} is not a video file`);
+    }
+    reject(new Error());
+  })
 };
 
 const url = 'https://cool.ldqc.xyz/cow-api/video/upload';
@@ -105,33 +99,21 @@ const url = 'https://cool.ldqc.xyz/cow-api/video/upload';
         <a-input v-model:value="formState.name" />
       </a-form-item>
 
-      <a-form-item
-        :rules="[
-          {
-            required: true,
-            message: 'Please input your describe!'
-          }
-        ]"
-        label="describe"
-        name="describe"
-      >
-        <a-input-password
-          v-model:value="formState.describe"
-        />
-      </a-form-item>
+    <a-form-item
+      label="describe"
+      name="describe"
+      :rules="[{ required: true, message: 'Please input your describe!' }]"
+    >
+      <a-input v-model:value="formState.describe" />
+    </a-form-item>
 
-      <a-form-item
-        :rules="[
-          {
-            required: true,
-            message: 'Please input your type!'
-          }
-        ]"
-        label="type"
-        name="type"
-      >
-        <a-input-password v-model:value="formState.type" />
-      </a-form-item>
+     <a-form-item
+      label="type"
+      name="type"
+      :rules="[{ required: true, message: 'Please input your type!' }]"
+    >
+      <a-input v-model:value="formState.type" />
+    </a-form-item>
 
       <a-form-item
         :rules="[
