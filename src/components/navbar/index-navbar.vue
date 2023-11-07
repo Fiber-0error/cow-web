@@ -17,8 +17,6 @@ const handleClickUpload = () => {
   uploadModal.value.handleClick();
 }
 
-
-
 </script>
 
 <template>
@@ -63,34 +61,34 @@ const handleClickUpload = () => {
       </div>
     </div>
     <a-space wrap>
-      <a-popover title='Title'>
-        <a-button>通知</a-button>
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </a-popover>
-      <a-popover title='Title'>
-        <a-button>私信</a-button>
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </a-popover>
-      <a-popover title='Title'>
-        <a-button>历史</a-button>
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </a-popover>
-      <a-popover title='Title'>
-        <a-button>投稿</a-button>
-        <template #content>
-          <p>Here is the text content</p>
-          <p>Here is the text content</p>
-        </template>
-      </a-popover>
+<!--      <a-popover title='Title'>-->
+<!--        <a-button>通知</a-button>-->
+<!--        <template #content>-->
+<!--          <p>Here is the text content</p>-->
+<!--          <p>Here is the text content</p>-->
+<!--        </template>-->
+<!--      </a-popover>-->
+<!--      <a-popover title='Title'>-->
+<!--        <a-button>私信</a-button>-->
+<!--        <template #content>-->
+<!--          <p>Here is the text content</p>-->
+<!--          <p>Here is the text content</p>-->
+<!--        </template>-->
+<!--      </a-popover>-->
+<!--      <a-popover title='Title'>-->
+<!--        <a-button>历史</a-button>-->
+<!--        <template #content>-->
+<!--          <p>Here is the text content</p>-->
+<!--          <p>Here is the text content</p>-->
+<!--        </template>-->
+<!--      </a-popover>-->
+<!--      <a-popover title='Title'>-->
+<!--        <a-button>投稿</a-button>-->
+<!--        <template #content>-->
+<!--          <p>Here is the text content</p>-->
+<!--          <p>Here is the text content</p>-->
+<!--        </template>-->
+<!--      </a-popover>-->
       <a-divider direction='vertical' />
       <a-popover title='Title' position="br">
         <a-button @click='handleClick' v-if="!user.isLogin">登录</a-button>

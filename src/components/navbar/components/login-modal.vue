@@ -24,6 +24,8 @@ const handleBeforeOk = (done) => {
     userLogin(form).then(({ data }) => {
       localStorage.setItem('token', data.token);
       user.setToken(data.token);
+      localStorage.setItem('id', data.accountId);
+      user.setId(data.accountId)
     });
   } else if (activeKey.value === '2') {
     userRegister(form).then(() => {

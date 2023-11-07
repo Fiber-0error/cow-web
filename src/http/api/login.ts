@@ -12,6 +12,9 @@ export const userLogin = (data: object) => {
 export const userRegister = (data: object) => {
     return loginRequest(`register`, 'post', { data });
 };
-export const userCollectList = (data: object) => {
+export const userCollectList = () => {
     return loginRequest(`collectList`, 'get');
+};
+export const userGetBaseInfo = (id: string) => {
+    return loginRequest(`getBaseInfo?id=${id}`, 'get');
 };
