@@ -3,7 +3,7 @@ import VideoSwiper from '@/pages/home/components/video-swiper.vue';
 </script>
 
 <template>
-  <a-layout style="margin: 0 24px">
+  <a-layout>
     <a-layout-content>
       <video-swiper></video-swiper>
     </a-layout-content>

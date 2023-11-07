@@ -3,15 +3,17 @@
     <a-layout-sider :width='160' collapsible style='padding-top: 60px'>
       <main-aside />
     </a-layout-sider>
-    <a-layout style='height:100vh;overflow: hidden'>
-      <a-layout-header class='layout-navbar'>
+    <a-layout style='height:100vh;overflow: hidden' class='default-color'>
+      <a-layout-header class='layout-navbar default-color'>
         <nav-bar />
       </a-layout-header>
-      <router-view v-slot='{ Component }' >
-        <transition appear mode='out-in' name='fade' >
-          <component :is='Component' />
-        </transition>
-      </router-view>
+      <a-layout class='default-color-less'>
+        <router-view v-slot='{ Component }' >
+          <transition appear mode='out-in' name='fade' >
+            <component :is='Component' />
+          </transition>
+        </router-view>
+      </a-layout>
     </a-layout>
   </a-layout>
 </template>
@@ -23,12 +25,6 @@ import MainAside from '@/components/aside/index-aside.vue';
 
 <style lang='less' scoped>
 @nav-size-height: 60px;
-//.layout-navbar {
-//  position: fixed;
-//  top: 0;
-//  left: 0;
-//  z-index: 100;
-//  width: 100%;
-//  height: @nav-size-height;
-//}
+.layout-navbar {
+}
 </style>

@@ -1,12 +1,20 @@
 <script lang='ts' setup>
 import { usePlayer } from '@/config/video';
 import { computed, ref, onMounted } from 'vue';
-
-const randomHeight = computed(() => Math.floor(Math.random() * 400 + 150));
+const {videoInfo} = defineProps({
+  videoInfo: Object,
+  default: () => ({
+    id: '1',
+    name: '12',
+    tag: '321',
+    type: '游戏'
+  })
+});
+const randomHeight = computed(() => Math.floor(Math.random() * 300 + 150));
 const videoRef = ref()
 let player: any;
 onMounted(() => {
-   player = usePlayer(videoRef.value, '这里放url', document.querySelector('.card')?.getBoundingClientRect().width , randomHeight, false);
+   player = usePlayer(videoRef.value, videoInfo.url, document.querySelector('.card')?.getBoundingClientRect().width , randomHeight, false);
   })
 
   const handleMouseOver = () => {

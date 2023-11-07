@@ -15,3 +15,4 @@ app.use(createPinia());
 app.use(router).use(ArcoVue).use(ArcoVueIcon);
 
 app.mount('#app');
+document.body.setAttribute('arco-theme', 'dark')
