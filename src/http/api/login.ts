@@ -15,6 +15,9 @@ export const userRegister = (data: object) => {
 export const userCollectList = () => {
     return loginRequest(`collectList`, 'get');
 };
+export const userLikeList = () => {
+    return loginRequest(`likeList`, 'get');
+};
 export const userGetBaseInfo = (id: string) => {
     return loginRequest(`getBaseInfo?id=${id}`, 'get');
 };

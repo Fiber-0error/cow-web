@@ -34,7 +34,7 @@ const emit = defineEmits(['toHome'])
 </script>
 
 <template>
-  <div @click='videoClick()' :style='{height: randomHeight+"px"}' ref="videoRef" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave" >
+  <div @click='videoClick()' class='defaultVideo' :style='{height: randomHeight+"px"}' ref="videoRef" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave" >
   </div>
 </template>
 

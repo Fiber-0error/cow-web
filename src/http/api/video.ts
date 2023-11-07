@@ -52,4 +52,7 @@ export const uploadVideo = (params) => {
     params
   });
 }
+export const hotKeyWord = () => {
+  return projectRequest('hotKeyWord?len=8', 'get');
+}
 
