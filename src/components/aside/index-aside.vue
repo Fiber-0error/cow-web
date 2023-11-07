@@ -1,9 +1,10 @@
 <script lang='ts' setup>
 import {
-  IconComputer,
-  IconMindMapping,
-  IconSettings,
-  IconStorage
+  IconBook,
+  IconComputer, IconFire, IconHome,
+  IconMindMapping, IconMusic, IconPlayArrow, IconSend,
+  IconSettings, IconStar,
+  IconStorage, IconTrophy, IconUser
 } from '@arco-design/web-vue/es/icon';
 import router from '@/router';
 import { computed } from 'vue';
@@ -12,7 +13,7 @@ const menuListTop = [
   {
     label: '首页',
     url: 'discover',
-    icon: IconSettings
+    icon: IconHome
   },
   {
     label: '推荐',
@@ -32,7 +33,7 @@ const menuListTop = [
   {
     label: '我的',
     url: 'user',
-    icon: IconComputer
+    icon: IconUser
   }
 ];
 const menuListBottom = [
@@ -49,32 +50,32 @@ const menuListBottom = [
   {
     label: '知识',
     url: 'panel',
-    icon: IconSettings
+    icon: IconBook
   },
   {
     label: '热点',
     url: 'hot',
-    icon: IconSettings
+    icon: IconFire
   },
   {
     label: '游戏',
     url: 'game',
-    icon: IconSettings
+    icon: IconTrophy
   },
   {
     label: '娱乐',
     url: 'fun',
-    icon: IconSettings
+    icon: IconStar
   },
   {
     label: '二次元',
     url: 'acg',
-    icon: IconSettings
+    icon: IconSend
   },
   {
     label: '音乐',
     url: 'music',
-    icon: IconSettings
+    icon: IconMusic
   }
 ];
 const routerUrl = computed(() => router.currentRoute.value.fullPath);
