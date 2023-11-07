@@ -1,0 +1,23 @@
+server:
+  port: 3131
+  forward-headers-strategy: framework
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://ldqc.xyz:3306/cow_video
+    username: root
+    password: mysqlpwd
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+

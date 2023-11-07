@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyun.cowvideo.dao.VideoInfoMapper">
+    <select id="nextMostViewAndUserNotWatch" resultType="com.lyun.cowvideo.entity.po.VideoInfoPO">
+        SELECT
+        *
+        FROM
+        video_info,
+        (
+        SELECT COUNT(watch_history.id) AS num,
+        video_id
+        FROM watch_history
+        <where>
+            <if test="watchedId != null and watchedId.size>0">
+                AND video_id NOT IN
+                <foreach collection="watchedId" index="index" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY watch_history.video_id
+        ORDER BY num DESC
+        LIMIT #{len} ) AS vi
+        WHERE
+        id = vi.video_id
+    </select>
+
+    <select id="queryRandomInTypeAndTagWithoutIds" resultType="com.lyun.cowvideo.entity.po.VideoInfoPO">
+
+        SELECT id,`name`,img_url,`describe`,tag
+        FROM `video_info`
+        <where>
+            <trim prefix="(" suffix=")">
+                <if test="types != null and types.size>0">
+                    type IN
+                    <foreach collection="types" item="type" separator="," open="(" close=")">
+                        #{type}
+                    </foreach>
+                </if>
+                <if test="tags != null and tags.size>0">
+                    <foreach collection="tags" item="tag">
+                        OR tag LIKE CONCAT('%', #{tag}, '%')
+                    </foreach>
+                </if>
+            </trim>
+            <if test="ids != null and ids.size>0">
+                AND id NOT IN
+                <foreach collection="ids" item="id" separator="," open="(" close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY RAND()
+        LIMIT #{len};
+
+    </select>
+
+    <select id="hotKeyWord" resultType="String">
+        SELECT `name`
+        FROM video_info,
+             (SELECT COUNT(watch_history.id) AS num,
+                     video_id
+              FROM watch_history
+              GROUP BY watch_history.video_id
+              ORDER BY num DESC
+              LIMIT #{len}) as hot
+        WHERE hot.video_id = video_info.id
+    </select>
+
+</mapper>
