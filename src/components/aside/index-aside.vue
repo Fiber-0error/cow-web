@@ -91,7 +91,10 @@ const routerTo = (url) => {
 
 <template>
   <a-space direction='vertical' fill>
-    <div>牛马视频</div>
+    <div style="display: flex; font-size: 20px; color: #fff;justify-content:center;align-items:center;">
+      <img style="margin:0;width:60px; display: block;-webkit-user-select: none;background-color: rgb(35, 35, 35);transition: background-color 300ms;" src="https://dn-mars-assets.qbox.me/qiniulogo/normal-logo-blue.png" />
+      <div>牛马视频</div>
+    </div>
     <a-menu v-model:selected-keys='routerUrl' :default-selected-key='routerUrl'>
       <a-menu-item
           v-for='(item, index) in menuListTop'
