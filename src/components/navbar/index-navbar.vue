@@ -92,6 +92,7 @@ const handleClickUpload = () => {
         </template>
       </a-popover>
       <a-divider direction='vertical' />
+      <a-popover title='Title' position="br">
         <a-button @click='handleClick' v-if="!user.isLogin">登录</a-button>
         <a-button @click='handleClickUpload' v-else>上传</a-button>
       <div></div>

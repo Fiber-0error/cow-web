@@ -1,6 +1,6 @@
 <script lang='ts' setup>
 import { nextTick, onMounted, ref } from 'vue';
-import { getFakeUrl, getVideos } from '@/utils/common';
+import { getVideos } from '@/utils/common';
 import { vReSize } from '@/utils/sizeDirect.js';
 import DiscoverVideoCard from '@/pages/discover/components/discover-video-card.vue';
 
