@@ -42,3 +42,10 @@ export const collectVideo = (videoId: number) => {
 export const recommendVideo = (type: string,size:number) => {
   return projectRequest(`recommend?type=${type}&size=${size}`, 'get')
 }
+
+export const uploadVideo = (params) => {
+  return projectRequest('upload', 'post', {
+    params
+  });
+}
+
