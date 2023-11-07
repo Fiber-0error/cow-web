@@ -65,6 +65,6 @@ function getFakeUrl() {
 
 export {
     getFakeUrl,
-    isLogin
+    getVideos
 }
 

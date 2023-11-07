@@ -6,17 +6,16 @@ export const getVideoHeightWidth = async () => {
 }
 
 
-export const usePlayer = (el, url) => {
+export const usePlayer = (el?: any, url?: any, width?:any, height?: any, controls = true) => {
   const player = new Player({
     el,
     url,
-    width: getVideoHeightWidth().width,
-    height: getVideoHeightWidth().height,
+    width: width ? width : getVideoHeightWidth().width,
+    height: height ? height : getVideoHeightWidth().height,
     volume: 0.3,
-    controls:true,
+    controls,
     loop: true,
   })
   return player;
 }
-
 
