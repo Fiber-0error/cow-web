@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import DiscoverVideo from '@/pages/discover/components/discover-video.vue';
 import router from '@/router';
+import { useVideoStore } from '@/stores/video';
 import { computed } from 'vue';
 
-const { videoInfo } = defineProps({
+const { videoInfo, data } = defineProps({
   videoInfo: Object,
+  data: Array,
   default: () => ({
     id: '1',
     name: '12',
@@ -12,7 +14,7 @@ const { videoInfo } = defineProps({
     type: '游戏'
   })
 });
-
+const videoStore = useVideoStore();
 const typeMap = {
   直播: 'live',
   放映厅: 'vs',
@@ -32,10 +34,22 @@ const routerTo = (url, id) => {
     /(.*)/,
     `${url}`
   );
+  console.log('data', data);
+
+  const newData = JSON.parse(JSON.stringify(data))
+  console.log('newData', newData);
+
+  const currentItemIndex = newData.findIndex(item => item.id === id);
+  const currentItem = newData.splice(currentItemIndex, 1);
+  newData.unshift(currentItem[0]);
+  videoStore.setVideoList(newData);
   router.replace({
     path: replaceRoute,
     query: {
       id: id
+    },
+    params:{
+      videoArr: newData,
     }
   });
 };

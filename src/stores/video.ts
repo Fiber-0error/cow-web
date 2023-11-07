@@ -10,6 +10,9 @@ export const useVideoStore = defineStore('video', {
     }
   },
   actions: {
+    setVideoList(videoList: any){
+      this.videoList = videoList;
+    },
      pushVideoList(newVideoList: any[]) {
       //@ts-ignore
        this.videoList = [...this.videoList, ...newVideoList]

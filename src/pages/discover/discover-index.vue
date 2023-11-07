@@ -124,7 +124,7 @@ const scrollEnd = () => {
         <div v-for='column in columnsNum' ref='columns' class='column'>
           <template v-if='masonryColumnList.length'>
             <template v-for='(item,index) in masonryColumnList[column-1]["list"]'>
-              <discover-video-card ref='videos' :video-info='item' />
+              <discover-video-card ref='videos' :data="data" :video-info='item' />
             </template>
           </template>
         </div>

@@ -1,6 +1,6 @@
 <template>
   <a-layout style='height: 100vh'>
-    <a-layout-sider :width='160' collapsible style='padding-top: 60px'>
+    <a-layout-sider :width='160' collapsible style="padding-top: 13px;" >
       <main-aside />
     </a-layout-sider>
     <a-layout style='height:100vh;overflow: hidden' class='default-color'>
