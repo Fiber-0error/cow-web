@@ -52,11 +52,11 @@ const menuListBottom = [
     url: 'panel',
     icon: IconBook
   },
-  {
-    label: '热点',
-    url: 'hot',
-    icon: IconFire
-  },
+  // {
+  //   label: '热点',
+  //   url: 'hot',
+  //   icon: IconFire
+  // },
   {
     label: '游戏',
     url: 'game',

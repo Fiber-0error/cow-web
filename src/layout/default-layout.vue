@@ -10,7 +10,9 @@
       <a-layout class='default-color-less'>
         <router-view v-slot='{ Component }' >
           <transition appear mode='out-in' name='fade' >
-            <component :is='Component' />
+            <keep-alive>
+              <component :is='Component' />
+            </keep-alive>
           </transition>
         </router-view>
       </a-layout>
