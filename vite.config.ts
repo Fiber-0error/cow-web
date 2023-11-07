@@ -13,6 +13,7 @@ export default defineConfig({
     proxy: {
       '/cow-api': {
         target: 'https://cool.ldqc.xyz',
+        secure: false,
         changeOrigin: false,
       },
 

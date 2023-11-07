@@ -24,7 +24,7 @@ const emits = defineEmits(['changeData'])
 const {isLike,id,isCollect} = props.videoItem;
 
 const liked = ref(isLike);
-const likeCount = ref(props.videoItem.likeCount);
+const likeCount = ref(props.videoItem.likeCount ? props.videoItem.likeCount : 0);
 const collect = ref(isCollect);
 
 const user = useUserStore();
@@ -41,8 +41,9 @@ const handleClickStar = () => {
       liked.value = res.data;
       if(res.data){
         likeCount.value = likeCount.value ? likeCount.value + 1 : 1;
+        message.success('喜欢成功！');
       } else {
-        likeCount.value = likeCount.value ? likeCount.value - 1 : null;
+        likeCount.value = likeCount.value ? likeCount.value - 1 : 0;
       }
     })
 }
@@ -55,6 +56,9 @@ const handleClickCollect = () => {
   }
   collectVideo(id).then(res => {
       collect.value = res.data;
+      if(res.data) {
+        message.success('收藏成功！');
+      }
     })
 }
 </script>

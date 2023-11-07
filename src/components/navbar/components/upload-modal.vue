@@ -5,10 +5,12 @@ import type {
   UploadProps
 } from 'ant-design-vue';
 import { message } from 'ant-design-vue';
-
+const uploadable = ref(true);
 const visible = ref(false);
+const formRef = ref();
 const handleClick = () => {
   visible.value = true;
+  fileList.value = [];
 };
 
 defineExpose({
@@ -39,35 +41,31 @@ const onFinishFailed = (errorInfo: any) => {
 
 const fileList = ref([]);
 const handleChange = (info: UploadChangeParam) => {
-  const status = info.file.status;
-  if (status !== 'uploading') {
-    console.log(info.file, info.fileList);
-  }
-  if (status === 'done') {
-    message.success(
-      `${info.file.name} file uploaded successfully.`
-    );
-  } else if (status === 'error') {
-    message.error(`${info.file.name} file upload failed.`);
-  }
 };
 
-const beforeUpload: UploadProps['beforeUpload'] = file => {
+const beforeUpload: UploadProps['beforeUpload'] = async (file) => {
   return new Promise((resolve, reject) => {
     const isLt100M = file.size / 1024/ 1024 < 100;
     if(!isLt100M) {
       message.error('file is large than 100M!');
+      reject(new Error());
     }
+    const fileType = file.name.substring(file.name.lastIndexOf('.') + 1)
     const type = ['MP4','MOV','WMV','FLV','AVI','AVCHD','WebM','MKV']
-    const isPNG = type.includes(`${file.type}`.toUpperCase());
+    const isPNG = type.includes(fileType.toUpperCase());
     if (!isPNG) {
       message.error(`${file.name} is not a video file`);
+      reject(new Error());
     }
-    reject(new Error());
+    resolve(true);
   })
 };
 
-const url = 'https://cool.ldqc.xyz/cow-api/video/upload';
+const headers = {
+  Authorization: localStorage.getItem('token'),
+};
+
+const url = 'https://cool.ldqc.xyz/cow-api/common/video/upload';
 </script>
 
 <template>
@@ -78,6 +76,7 @@ const url = 'https://cool.ldqc.xyz/cow-api/video/upload';
     @before-ok="handleBeforeOk"
   >
     <a-form
+    ref="formRef"
       :label-col="{ span: 8 }"
       :model="formState"
       :wrapper-col="{ span: 16 }"
@@ -125,17 +124,20 @@ const url = 'https://cool.ldqc.xyz/cow-api/video/upload';
         label="File"
         name="remember"
       >
-        <a-upload
-          v-model:file-list="fileList"
-          :action="url"
-          :before-upload="beforeUpload"
-          :multiple="false"
-        >
-          <a-button>
-            <upload-outlined></upload-outlined>
-            Upload
-          </a-button>
-        </a-upload>
+       <a-upload
+    v-model:file-list="fileList"
+    name="file"
+    :multiple="false"
+    :action="url"
+    :headers="headers"
+    @before-upload="beforeUpload"
+    @change="handleChange"
+  >
+    <a-button>
+      <upload-outlined></upload-outlined>
+      Click to Upload
+    </a-button>
+  </a-upload>
       </a-form-item>
     </a-form>
   </a-modal>

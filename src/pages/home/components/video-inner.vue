@@ -5,7 +5,7 @@
 import {onMounted, ref , watch, computed} from 'vue';
 import {usePlayer} from '@/config/video';
 import {Events } from 'xgplayer';
-import { updateVideoWatchProgress, userWatchVideo } from '@/http/api/video';
+import { updateVideoWatchProgress } from '@/http/api/video';
 
 const props = defineProps(['url', 'isActive', 'videoItem'])
 const {url,id} =  props.videoItem
@@ -16,8 +16,6 @@ onMounted( () => {
 
      // 通过player调用
   videoPalyer.on(Events.PLAY, async () => {
-    await userWatchVideo(id);
-
   })
 
   videoPalyer.on(Events.PAUSE, (videoPalyer) => {
