@@ -27,10 +27,14 @@ onMounted(() => {
     player.pause();
 
   }
+const emit = defineEmits(['toHome'])
+  const videoClick = () => {
+    emit("toHome")
+  }
 </script>
 
 <template>
-  <div :style='{height: randomHeight+"px"}' ref="videoRef" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave" >
+  <div @click='videoClick()' :style='{height: randomHeight+"px"}' ref="videoRef" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave" >
   </div>
 </template>
 

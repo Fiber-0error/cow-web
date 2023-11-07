@@ -36,10 +36,12 @@ const routerTo = (url, id) => {
   );
   console.log('data', data);
 
-  const newData = JSON.parse(JSON.stringify(data))
+  const newData = JSON.parse(JSON.stringify(data));
   console.log('newData', newData);
 
-  const currentItemIndex = newData.findIndex(item => item.id === id);
+  const currentItemIndex = newData.findIndex(
+    (item) => item.id === id
+  );
   const currentItem = newData.splice(currentItemIndex, 1);
   newData.unshift(currentItem[0]);
   videoStore.setVideoList(newData);
@@ -48,8 +50,8 @@ const routerTo = (url, id) => {
     query: {
       id: id
     },
-    params:{
-      videoArr: newData,
+    params: {
+      videoArr: newData
     }
   });
 };
@@ -68,7 +70,10 @@ const routerTo = (url, id) => {
     @click="routerTo('home', videoInfo.id)"
   >
     <div>
-      <discover-video :videoInfo="videoInfo" />
+      <discover-video
+        :videoInfo="videoInfo"
+        @to-home="routerTo('home', videoInfo.id)"
+      />
     </div>
     <div
       style="
@@ -85,7 +90,7 @@ const routerTo = (url, id) => {
         {{ videoInfo.type }}
       </div>
       <!--      {{ videoInfo.id }}-->
-<!--      {{ videoInfo.totalTime }}-->
+      <!--      {{ videoInfo.totalTime }}-->
       <!--      {{ videoInfo.url }}-->
       <!--              {{ masonryColumnList }}-->
     </div>
